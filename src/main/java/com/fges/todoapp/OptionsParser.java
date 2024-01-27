@@ -1,26 +1,25 @@
 package com.fges.todoapp;
 
-
+import com.fges.todoapp.options.Option;
+import com.fges.todoapp.options.OptionsContainer;
 import org.apache.commons.cli.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-/**
- * Hello world!
- */
 public class OptionsParser {
 
     private final Options cliOptions;
-
     private final CommandLineParser parser;
-
     private List<String> positionalArgs;
+    private final HashMap<String, String> options = new HashMap<>();
+    private List<Option> OptionsClasses = new ArrayList<>();
 
-    private String fileName;
-
-    public String getFileName() {
-        return fileName;
+    public HashMap<String, String> getOptions() {
+        return options;
     }
+
     public List<String> getPositionalArgs() {
         return positionalArgs;
     }
@@ -29,25 +28,42 @@ public class OptionsParser {
         cliOptions = new Options();
         parser = new DefaultParser();
 
-        this.getOptions(args);
+        try {
+            parseOptions(args);
+        } catch (ParseException ex) {
+            ErrorHandling.printError("Failed to parse arguments: ", ex);
+            return;
+        } catch (Exception e) {
+            ErrorHandling.printError("An error occured when parsing options", e);
+        }
+
+        if (positionalArgs.isEmpty()) {
+            ErrorHandling.printError("Missing command. Please provide a command.", new Exception());
+        }
     }
 
     public String getCommand() {
-        return this.getPositionalArgs().get(0);
+        return (positionalArgs != null && !positionalArgs.isEmpty()) ? positionalArgs.get(0) : null;
     }
-    public void getOptions(String[] args) {
-        cliOptions.addRequiredOption("s", "source", true, "File containing the todos");
+
+
+    private void parseOptions(String[] args) throws Exception {
         CommandLine cmd;
-        try {
-            cmd = parser.parse(cliOptions, args);
-        } catch (ParseException ex) {
-            System.err.println("Fail to parse arguments: " + ex.getMessage());
-            return;
+
+        for (Class<? extends Option> optionClass : OptionsContainer.allOptions) {
+            Option option = optionClass.newInstance();
+            cliOptions.addRequiredOption(option.getOption(), "source", true, option.getDescription());
+            OptionsClasses.add(option);
         }
-        fileName = cmd.getOptionValue("s");
+
+        cmd = parser.parse(cliOptions, args);
+
+        for (Option option : OptionsClasses) {
+            String optionName = option.getOptionName();
+            options.put(optionName, cmd.getOptionValue(option.getOption()));
+        }
+
         positionalArgs = cmd.getArgList();
-        if (positionalArgs.isEmpty()) {
-            System.err.println("Missing Command");
-        }
     }
+
 }
