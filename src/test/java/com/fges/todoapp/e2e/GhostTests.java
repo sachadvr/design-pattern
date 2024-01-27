@@ -34,7 +34,7 @@ public class GhostTests {
      * Represents a sequence of command execution and their results.
      * Stdout is used to compare results, that's why the
      *
-     * @param sequence List of arguments of the commands to execute. Example:<br>
+     * @param sequence  List of arguments of the commands to execute. Example:<br>
      *                 {"insert", "-s", "source.json", "Hello World"},<br>
      *                 {"insert", "-s", "source.json", "Bye"},<br>
      *                 {"list", "-s", "source.json"},
