@@ -18,4 +18,3 @@ Simple CLI
 Jackson
 - https://www.baeldung.com/jackson-json-to-jsonnode
 - https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-
