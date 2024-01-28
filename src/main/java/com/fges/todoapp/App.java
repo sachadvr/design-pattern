@@ -39,9 +39,10 @@ public class App {
             new ListCommand(op.getCommand(), op, fileContent);
         }catch (Exception e) {
             ErrorHandling.printError("Impossible to execute the command", e);
+        }finally {
+            System.err.println("Done.");
         }
 
-        System.err.println("Done.");
         return 0;
     }
 }
