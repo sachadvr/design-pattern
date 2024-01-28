@@ -38,7 +38,7 @@ public class App {
             new InsertCommand(op.getCommand(), op, fileContent, filePath);
             new ListCommand(op.getCommand(), op, fileContent);
         }catch (Exception e) {
-            ErrorHandling.printError("Impossible to execute the command + ", e);
+            ErrorHandling.printError("Impossible to execute the command", e);
         }
 
         System.err.println("Done.");

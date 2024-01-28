@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fges.todoapp.OptionsParser;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
