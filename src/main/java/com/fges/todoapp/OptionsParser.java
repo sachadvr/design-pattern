@@ -4,9 +4,7 @@ import com.fges.todoapp.options.Option;
 import com.fges.todoapp.options.OptionsContainer;
 import org.apache.commons.cli.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class OptionsParser {
 
@@ -14,7 +12,7 @@ public class OptionsParser {
     private final CommandLineParser parser;
     private List<String> positionalArgs;
     private final HashMap<String, String> options = new HashMap<>();
-    private List<Option> OptionsClasses = new ArrayList<>();
+    private final List<Option> OptionsClasses = new ArrayList<>();
 
     public HashMap<String, String> getOptions() {
         return options;
@@ -52,15 +50,22 @@ public class OptionsParser {
 
         for (Class<? extends Option> optionClass : OptionsContainer.allOptions) {
             Option option = optionClass.newInstance();
-            cliOptions.addRequiredOption(option.getOption(), "source", true, option.getDescription());
+            if (option.isRequired()) {
+                cliOptions.addRequiredOption(option.getOption(), option.getLongOption(), true, option.getDescription());
+            }else {
+                cliOptions.addOption(option.getOption(), option.getLongOption(), false, option.getDescription());
+            }
             OptionsClasses.add(option);
         }
-
         cmd = parser.parse(cliOptions, args);
-
         for (Option option : OptionsClasses) {
             String optionName = option.getOptionName();
-            options.put(optionName, cmd.getOptionValue(option.getOption()));
+
+            if(cmd.hasOption(option.getOption())) {
+                options.put(optionName, cmd.getOptionValue(option.getOption()));
+
+            }
+
         }
 
         positionalArgs = cmd.getArgList();

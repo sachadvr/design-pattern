@@ -7,12 +7,17 @@ package com.fges.todoapp.options;
 abstract public class Option {
 
     public String option = null;
-    public Option(String option) {
+    public String longoption = null;
+    public Option(String option, String longoption) {
         this.option = option;
+        this.longoption = longoption;
     }
 
     public String getOption() {
         return option;
+    }
+    public String getLongOption() {
+        return longoption;
     }
 
     public String getOptionName() {
@@ -20,6 +25,10 @@ abstract public class Option {
     }
 
     public String getDescription() {
+        return null;
+    }
+
+    public Boolean isRequired() {
         return null;
     }
 }
