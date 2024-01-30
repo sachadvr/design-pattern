@@ -16,12 +16,15 @@ abstract public class Command implements CommandInterface {
     public String fileContent;
 
     public Path filePath;
-
-    public Command(String cmd, OptionsParser op, String fileContent, Path filePath) throws Exception {
+    private final DataProcessor csvProcessor;
+    private final DataProcessor jsonProcessor;
+    public Command(String cmd, OptionsParser op, String fileContent, Path filePath, DataProcessor csvProcessor, DataProcessor jsonProcessor) throws Exception {
         this.cmd = cmd;
         this.op = op;
         this.fileContent = fileContent;
         this.filePath = filePath;
+        this.csvProcessor = csvProcessor;
+        this.jsonProcessor = jsonProcessor;
 
         if (!isCommand()) return;
         if (op.getPositionalArgs().size() < this.neededArgs()) {
@@ -35,9 +38,13 @@ abstract public class Command implements CommandInterface {
         return support().equals(cmd);
     }
 
-    public void execCSV(String todo) throws Exception {}
+    public void execCSV(String todo) throws Exception {
+        csvProcessor.process(todo, fileContent, op, filePath);
+    }
 
-    public void execJSON(String todo) throws Exception {}
+    public void execJSON(String todo) throws Exception {
+        jsonProcessor.process(todo, fileContent, op, filePath);
+    }
 
     public void exec() throws Exception {
         String todo = op.getPositionalArgs().size() > 1 ? op.getPositionalArgs().get(1) : null ;

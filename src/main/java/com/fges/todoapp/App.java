@@ -1,8 +1,8 @@
 package com.fges.todoapp;
 
 
-import com.fges.todoapp.commands.InsertCommand;
-import com.fges.todoapp.commands.ListCommand;
+import com.fges.todoapp.commands.ListCommand.InsertCommand;
+import com.fges.todoapp.commands.ListCommand.ListCommand;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

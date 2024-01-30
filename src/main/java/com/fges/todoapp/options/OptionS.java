@@ -6,8 +6,10 @@ package com.fges.todoapp.options;
  */
 public class OptionS extends Option {
     public static String option = "s";
+    public static String longoption = "source";
+
     public OptionS() {
-        super(option);
+        super(option, longoption);
     }
 
     public String getOptionName() {
@@ -15,5 +17,9 @@ public class OptionS extends Option {
     }
     public String getDescription() {
         return "File containing the todos";
+    }
+
+    public Boolean isRequired() {
+        return true;
     }
 }

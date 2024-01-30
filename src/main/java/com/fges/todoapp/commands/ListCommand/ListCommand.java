@@ -1,4 +1,4 @@
-package com.fges.todoapp.commands;
+package com.fges.todoapp.commands.ListCommand;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,6 +12,8 @@ import com.fges.todoapp.commands.Command;
 import com.fges.todoapp.commands.CommandInterface;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -20,28 +22,7 @@ import java.util.stream.Collectors;
 public class ListCommand extends Command implements CommandInterface {
 
     public ListCommand(String cmd, OptionsParser op, String fileContent) throws Exception {
-        super(cmd, op, fileContent, null);
-    }
-
-    @Override
-    public void execCSV(String todo) throws Exception {
-        System.out.println(Arrays.stream(fileContent.split("\n"))
-                .map(mytodo -> "- " + mytodo)
-                .collect(Collectors.joining("\n"))
-        );
-    }
-
-    @Override
-    public void execJSON(String todo) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode actualObj = mapper.readTree(fileContent);
-        if (actualObj instanceof MissingNode) {
-            actualObj = JsonNodeFactory.instance.arrayNode();
-        }
-
-        if (actualObj instanceof ArrayNode arrayNode) {
-            arrayNode.forEach(node -> System.out.println("- " + node.toString()));
-        }
+        super(cmd, op, fileContent, null, new ListCommandCsvDataProcessor(), new ListCommandJsonDataProcessor());
     }
 
     @Override
