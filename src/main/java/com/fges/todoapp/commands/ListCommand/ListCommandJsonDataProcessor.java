@@ -23,11 +23,11 @@ public class ListCommandJsonDataProcessor implements DataProcessor {
 
                 if (op.getOptions().containsKey("isDone")) {
                     if (isDone != null && isDone.asBoolean()) {
-                        System.out.println("- " + name);
+                        System.out.println("Done: - " + name);
                     }
                 } else {
                     try {
-                        System.out.println("- \"" + mapper.readValue(node.toString(), Map.class).get("name") + "\"");
+                        System.out.println((isDone != null && isDone.asBoolean() ? "Done: " : "") + "- \"" + mapper.readValue(node.toString(), Map.class).get("name") + "\"");
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
                     }
