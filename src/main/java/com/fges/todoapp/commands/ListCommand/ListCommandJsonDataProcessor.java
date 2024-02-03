@@ -20,14 +20,16 @@ public class ListCommandJsonDataProcessor implements DataProcessor {
             arrayNode.forEach(node -> {
                 JsonNode isDone = node.get("isdone");
                 JsonNode name = node.get("name");
+                String nameToString = name.toString().substring(1, name.toString().length() - 1);
 
                 if (op.getOptions().containsKey("isDone")) {
                     if (isDone != null && isDone.asBoolean()) {
-                        System.out.println("Done: - " + name);
+                        // h
+                        System.out.println("- Done: " + nameToString);
                     }
                 } else {
                     try {
-                        System.out.println((isDone != null && isDone.asBoolean() ? "Done: " : "") + "- \"" + mapper.readValue(node.toString(), Map.class).get("name") + "\"");
+                        System.out.println((isDone != null && isDone.asBoolean() ? "- Done: " : "- ") + mapper.readValue(node.toString(), Map.class).get("name"));
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
                     }

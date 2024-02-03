@@ -19,8 +19,8 @@ public class ListCommandCsvDataProcessor implements DataProcessor {
                     String taskName = todoList.get(0);
                     String isDoneString = todoList.get(1);
                     boolean isDone = "1".equals(isDoneString);
-
-                    return isDone ? "- Done: \"" + taskName + "\"" : "- " + taskName;
+                    // to string remove ""
+                    return isDone ? "- Done: " + taskName : "- " + taskName;
 
                 })
                 .collect(Collectors.joining("\n"))
