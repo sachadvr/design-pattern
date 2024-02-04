@@ -20,7 +20,7 @@ public class ListCommandJsonDataProcessor implements DataProcessor {
             arrayNode.forEach(node -> {
                 JsonNode isDone = node.get("isdone");
                 JsonNode name = node.get("name");
-                String nameToString = name.toString().substring(1, name.toString().length() - 1);
+                String nameToString = name.toString().substring(1, name.toString().length() - 1).trim();
 
                 if (op.getOptions().containsKey("isDone")) {
                     if (isDone != null && isDone.asBoolean()) {
