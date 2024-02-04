@@ -61,3 +61,7 @@ classDiagram
     Option : -name String
     Option : -description String
 ```
+
+## 4/2/2024:
+- I added done option to the insert command / list command by adding a new option to the OptionsContainer
+- and added Done information to Json file and Csv file so i can determine if the task is done or not
