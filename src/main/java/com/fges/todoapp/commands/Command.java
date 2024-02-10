@@ -3,7 +3,6 @@ package com.fges.todoapp.commands;
 
 import com.fges.todoapp.OptionsParser;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 /**
@@ -16,50 +15,34 @@ abstract public class Command implements CommandInterface {
     public String fileContent;
 
     public Path filePath;
-    private final DataProcessor csvProcessor;
-    private final DataProcessor jsonProcessor;
-    public Command(String cmd, OptionsParser op, String fileContent, Path filePath, DataProcessor csvProcessor, DataProcessor jsonProcessor) throws Exception {
+    private final DataProcessor processor;
+    public Command(String cmd, OptionsParser op, String fileContent, Path filePath, DataProcessor dataProcessor) throws Exception {
         this.cmd = cmd;
         this.op = op;
         this.fileContent = fileContent;
         this.filePath = filePath;
-        this.csvProcessor = csvProcessor;
-        this.jsonProcessor = jsonProcessor;
-
+        this.processor = dataProcessor;
         if (!isCommand()) return;
         if (op.getPositionalArgs().size() < this.neededArgs()) {
             throw new Exception("Not enougth arguments for the command " + support());
         }
         exec();
-
     }
 
     public boolean isCommand() {
         return support().equals(cmd);
     }
 
-    public void execCSV(String todo) throws Exception {
-        csvProcessor.process(todo, fileContent, op, filePath);
-    }
-
-    public void execJSON(String todo) throws Exception {
-        jsonProcessor.process(todo, fileContent, op, filePath);
+    public void executeDataProcessor() {
+        try {
+            processor.process(op.getPositionalArgs().size() > 1 ? op.getPositionalArgs().get(1) : null, fileContent, op, filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void exec() throws Exception {
-        String todo = op.getPositionalArgs().size() > 1 ? op.getPositionalArgs().get(1) : null ;
-
-        String fileName = op.getOptions().get("fileName");
-        if (fileName.endsWith(".json")) {
-            execJSON(todo);
-
-            return;
-        } else if (fileName.endsWith(".csv")) {
-            execCSV(todo);
-
-            return;
-        }
-        throw new Exception("Sorry, only json & csv are accepted");
+        executeDataProcessor();
     }
     public String support() {
         return null;

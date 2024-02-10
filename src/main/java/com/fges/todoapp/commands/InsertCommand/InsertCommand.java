@@ -1,4 +1,4 @@
-package com.fges.todoapp.commands.ListCommand;
+package com.fges.todoapp.commands.InsertCommand;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fges.todoapp.OptionsParser;
 import com.fges.todoapp.commands.Command;
 import com.fges.todoapp.commands.CommandInterface;
+import com.fges.todoapp.commands.DataProcessor;
 import com.fges.todoapp.commands.InsertCommand.InsertCommandCsvDataProcessor;
 import com.fges.todoapp.commands.InsertCommand.InsertCommandJsonDataProcessor;
 
@@ -19,8 +20,8 @@ import java.nio.file.Path;
  * Hello world!
  */
 public class InsertCommand extends Command implements CommandInterface {
-    public InsertCommand(String cmd, OptionsParser op, String fileContent, Path filePath) throws Exception {
-        super(cmd, op, fileContent, filePath, new InsertCommandCsvDataProcessor(), new InsertCommandJsonDataProcessor());
+    public InsertCommand(String cmd, OptionsParser op, String fileContent, Path filePath, DataProcessor dataProcessor) throws Exception {
+        super(cmd, op, fileContent, filePath, dataProcessor);
     }
 
     @Override

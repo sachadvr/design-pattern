@@ -1,14 +1,13 @@
 package com.fges.todoapp.commands.ListCommand;
 
 import com.fges.todoapp.OptionsParser;
-import com.fges.todoapp.commands.DataProcessor;
+import com.fges.todoapp.commands.CsvDataProcessor;
 
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ListCommandCsvDataProcessor implements DataProcessor {
+public class ListCommandCsvDataProcessor implements CsvDataProcessor {
     @Override
     public void process(String todo, String fileContent, OptionsParser op, Path filePath) throws Exception {
 
