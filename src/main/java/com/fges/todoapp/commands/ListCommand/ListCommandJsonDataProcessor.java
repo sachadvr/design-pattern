@@ -5,12 +5,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fges.todoapp.OptionsParser;
-import com.fges.todoapp.commands.DataProcessor;
+import com.fges.todoapp.commands.CsvDataProcessor;
+import com.fges.todoapp.commands.JsonDataProcessor;
 
 import java.nio.file.Path;
 import java.util.Map;
 
-public class ListCommandJsonDataProcessor implements DataProcessor {
+public class ListCommandJsonDataProcessor implements JsonDataProcessor {
     @Override
     public void process(String todo, String fileContent, OptionsParser op, Path filePath) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
@@ -24,7 +25,6 @@ public class ListCommandJsonDataProcessor implements DataProcessor {
 
                 if (op.getOptions().containsKey("isDone")) {
                     if (isDone != null && isDone.asBoolean()) {
-                        // h
                         System.out.println("- Done: " + nameToString);
                     }
                 } else {

@@ -10,7 +10,9 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fges.todoapp.OptionsParser;
 import com.fges.todoapp.commands.Command;
 import com.fges.todoapp.commands.CommandInterface;
+import com.fges.todoapp.commands.DataProcessor;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
@@ -21,8 +23,8 @@ import java.util.stream.Collectors;
  */
 public class ListCommand extends Command implements CommandInterface {
 
-    public ListCommand(String cmd, OptionsParser op, String fileContent) throws Exception {
-        super(cmd, op, fileContent, null, new ListCommandCsvDataProcessor(), new ListCommandJsonDataProcessor());
+    public ListCommand(String cmd, OptionsParser op, String fileContent, Path filePath, DataProcessor dataProcessor) throws Exception {
+        super(cmd, op, fileContent, filePath, dataProcessor);
     }
 
     @Override

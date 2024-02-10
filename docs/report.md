@@ -65,3 +65,9 @@ classDiagram
 ## 4/2/2024:
 - I added done option to the insert command / list command by adding a new option to the OptionsContainer
 - and added Done information to Json file and Csv file so i can determine if the task is done or not
+
+
+## 10/2/2024:
+- now no need to add the name of the command in the app class,
+- so if you want to add a new command you just need to add a new class that extends Command and implement the Csv & Json class to process
+- i added a new class to handle the file processing, so now the app class is way more cleaner.

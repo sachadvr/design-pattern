@@ -1,7 +1,8 @@
 package com.fges.todoapp;
 
 
-import com.fges.todoapp.commands.ListCommand.InsertCommand;
+import com.fges.todoapp.commands.Command;
+import com.fges.todoapp.commands.InsertCommand.InsertCommand;
 import com.fges.todoapp.commands.ListCommand.ListCommand;
 
 import java.nio.file.Files;
@@ -22,21 +23,10 @@ public class App {
 
     public static int exec(String[] args) {
         OptionsParser op = new OptionsParser(args);
-
-        Path filePath = Paths.get(op.getOptions().get("fileName"));
-        String fileContent = "";
-
-        if (Files.exists(filePath)) {
-            try{
-                fileContent = Files.readString(filePath);
-            }catch (Exception e) {
-                ErrorHandling.printError("Impossible to read file", e);
-            }
-        }
+        FileManager file = new FileManager(op);
 
         try{
-            new InsertCommand(op.getCommand(), op, fileContent, filePath);
-            new ListCommand(op.getCommand(), op, fileContent);
+            Command toto = file.getCommand();
         }catch (Exception e) {
             ErrorHandling.printError("Impossible to execute the command", e);
         }finally {
@@ -45,4 +35,5 @@ public class App {
 
         return 0;
     }
+
 }

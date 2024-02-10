@@ -6,13 +6,14 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fges.todoapp.OptionsParser;
-import com.fges.todoapp.commands.DataProcessor;
+import com.fges.todoapp.commands.CsvDataProcessor;
+import com.fges.todoapp.commands.JsonDataProcessor;
 import com.fges.todoapp.commands.ListCommand.TodoItem;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class InsertCommandJsonDataProcessor implements DataProcessor {
+public class InsertCommandJsonDataProcessor implements JsonDataProcessor {
     @Override
     public void process(String todo, String fileContent, OptionsParser op, Path filePath) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
