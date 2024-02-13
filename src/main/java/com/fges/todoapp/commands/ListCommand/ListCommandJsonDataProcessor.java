@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fges.todoapp.OptionsParser;
-import com.fges.todoapp.commands.CsvDataProcessor;
 import com.fges.todoapp.commands.JsonDataProcessor;
 
 import java.nio.file.Path;
@@ -15,26 +14,45 @@ public class ListCommandJsonDataProcessor implements JsonDataProcessor {
     @Override
     public void process(String todo, String fileContent, OptionsParser op, Path filePath) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode actualObj = mapper.readTree(fileContent);
+        JsonNode rootNode = mapper.readTree(fileContent);
 
-        if (actualObj instanceof ArrayNode arrayNode) {
-            arrayNode.forEach(node -> {
-                JsonNode isDone = node.get("isdone");
-                JsonNode name = node.get("name");
-                String nameToString = name.toString().substring(1, name.toString().length() - 1).trim();
-
-                if (op.getOptions().containsKey("isDone")) {
-                    if (isDone != null && isDone.asBoolean()) {
-                        System.out.println("- Done: " + nameToString);
-                    }
-                } else {
-                    try {
-                        System.out.println((isDone != null && isDone.asBoolean() ? "- Done: " : "- ") + mapper.readValue(node.toString(), Map.class).get("name"));
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
+        if (rootNode instanceof ArrayNode) {
+            processArrayNode((ArrayNode) rootNode, op, mapper);
         }
     }
+
+    private void processArrayNode(ArrayNode arrayNode, OptionsParser op, ObjectMapper mapper) {
+        arrayNode.forEach(node -> {
+            JsonNode isDoneNode = node.get("isdone");
+            JsonNode nameNode = node.get("name");
+            String name = getNameFromNode(nameNode);
+
+            if (op.getOptions().containsKey("isDone")) {
+                printDoneTaskStatus(isDoneNode, name);
+            } else {
+                printTask(isDoneNode, name, node, mapper);
+            }
+        });
+    }
+
+    private String getNameFromNode(JsonNode nameNode) {
+        return nameNode != null ? nameNode.asText() : "";
+    }
+
+    private void printDoneTaskStatus(JsonNode isDoneNode, String name) {
+        if (isDoneNode != null && isDoneNode.asBoolean()) {
+            System.out.println("- Done: " + name);
+        }
+    }
+
+    private void printTask(JsonNode isDoneNode, String name, JsonNode node, ObjectMapper mapper) {
+        try {
+            String output = (isDoneNode != null && isDoneNode.asBoolean() ? "- Done: " : "- ") +
+                    mapper.readValue(node.toString(), Map.class).get("name");
+            System.out.println(output);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

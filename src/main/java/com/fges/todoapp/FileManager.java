@@ -11,13 +11,14 @@ import java.nio.file.Paths;
 
 public class FileManager {
 
+    public final String FILENAME = "fileName";
     private OptionsParser op;
     public FileManager(OptionsParser op) {
         this.op = op;
     }
 
     public String getContent() {
-        Path filePath = Paths.get(op.getOptions().get("fileName"));
+        Path filePath = Paths.get(op.getOptions().get(FILENAME));
         String fileContent = "";
 
         if (Files.exists(filePath)) {
@@ -32,18 +33,18 @@ public class FileManager {
     }
 
     public Path getFilePath() {
-        return Paths.get(op.getOptions().get("fileName"));
+        return Paths.get(op.getOptions().get(FILENAME));
     }
 
     public DataProcessor getDataProcessor() {
-        String fileName = op.getOptions().get("fileName");
+        String fileName = op.getOptions().get(FILENAME);
         String extension = fileName.substring(fileName.lastIndexOf("."));
         String DataProcessor = op.getCommand().toLowerCase().substring(0, 1).toUpperCase() + op.getCommand().substring(1) + "Command";
         switch (extension) {
             case ".json" -> {
                 try {
                     DataProcessor = "com.fges.todoapp.commands." + DataProcessor + "." + DataProcessor + "JsonDataProcessor";
-                    return (JsonDataProcessor) Class.forName(DataProcessor).newInstance();
+                    return (JsonDataProcessor) Class.forName(DataProcessor).getConstructor().newInstance();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -51,7 +52,7 @@ public class FileManager {
             case ".csv" -> {
                 try {
                     DataProcessor = "com.fges.todoapp.commands." + DataProcessor + "." + DataProcessor + "CsvDataProcessor";
-                    return (CsvDataProcessor) Class.forName(DataProcessor).newInstance();
+                    return (CsvDataProcessor) Class.forName(DataProcessor).getConstructor().newInstance();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
