@@ -53,9 +53,13 @@ public class FileManager {
     }
 
     public WriteService getWriteService() {
-        if (op.getOptions().get(FILENAME).endsWith(".csv")) {
+        String output = op.getOptions().get(FILENAME);
+        if (op.getOptions().get("destination") != null) {
+            output = op.getOptions().get("destination");
+        }
+        if (output.endsWith(".csv")) {
             return new WriteCsvService();
-        }else if (op.getOptions().get(FILENAME).endsWith(".json")) {
+        }else if (output.endsWith(".json")) {
             return new WriteJsonService();
         }
         return null;

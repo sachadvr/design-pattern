@@ -4,23 +4,23 @@ package com.fges.todoapp.options;
 /**
  * Hello world!
  */
-public class OptionDone extends Option {
-    public static String option = "d";
-    public static String longoption = "done";
+public class OptionDest extends Option {
+    public static String option = "dest";
+    public static String longoption = "destination";
 
-    public OptionDone() {
+    public OptionDest() {
         super(option, longoption);
     }
 
     public String getOptionName() {
-        return "isDone";
+        return "destination";
     }
     public String getDescription() {
-        return "Done options";
+        return "to change csv to json or json to csv";
     }
 
     public Boolean hasArgs() {
-        return false;
+        return true;
     }
 
     public Boolean isRequired() {
