@@ -13,6 +13,6 @@ public class OptionsContainer {
     static {
         allOptions.add(OptionS.class);
         allOptions.add(OptionDone.class);
-
+        allOptions.add(OptionDest.class);
     }
 }

@@ -19,6 +19,10 @@ public class OptionS extends Option {
         return "File containing the todos";
     }
 
+    public Boolean hasArgs() {
+        return true;
+    }
+
     public Boolean isRequired() {
         return true;
     }

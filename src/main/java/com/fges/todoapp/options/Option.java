@@ -28,7 +28,11 @@ abstract public class Option {
         return null;
     }
 
-    public Boolean isRequired() {
+    public Boolean hasArgs() {
         return null;
+    }
+
+    public Boolean isRequired() {
+        return false;
     }
 }

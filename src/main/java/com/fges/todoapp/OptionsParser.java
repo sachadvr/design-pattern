@@ -53,9 +53,9 @@ public class OptionsParser {
         for (Class<? extends Option> optionClass : OptionsContainer.allOptions) {
             Option option = optionClass.getDeclaredConstructor().newInstance();
             if (Boolean.TRUE.equals(option.isRequired())) {
-                cliOptions.addRequiredOption(option.getOption(), option.getLongOption(), true, option.getDescription());
+                cliOptions.addRequiredOption(option.getOption(), option.getLongOption(), option.hasArgs(), option.getDescription());
             }else {
-                cliOptions.addOption(option.getOption(), option.getLongOption(), false, option.getDescription());
+                cliOptions.addOption(option.getOption(), option.getLongOption(), option.hasArgs(), option.getDescription());
             }
             optionsClasses.add(option);
         }
@@ -65,11 +65,9 @@ public class OptionsParser {
 
             if(cmd.hasOption(option.getOption())) {
                 options.put(optionName, cmd.getOptionValue(option.getOption()));
-
             }
 
         }
-
         positionalArgs = cmd.getArgList();
     }
 
