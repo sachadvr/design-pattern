@@ -5,14 +5,17 @@ import com.fges.todoapp.OptionsParser;
 import com.fges.todoapp.commands.Command;
 import com.fges.todoapp.commands.CommandInterface;
 import com.fges.todoapp.commands.DataProcessor;
+import com.fges.todoapp.service.LoadService;
+import com.fges.todoapp.service.WriteService;
+
 import java.nio.file.Path;
 
 /**
  * Hello world!
  */
 public class InsertCommand extends Command implements CommandInterface {
-    public InsertCommand(String cmd, OptionsParser op, String fileContent, Path filePath, DataProcessor dataProcessor) throws Exception {
-        super(cmd, op, fileContent, filePath, dataProcessor);
+    public InsertCommand(String cmd, OptionsParser op, String fileContent, Path filePath, DataProcessor dataProcessor, LoadService loadService, WriteService writeService) throws Exception {
+        super(cmd, op, fileContent, filePath, dataProcessor, loadService, writeService);
     }
 
     @Override
@@ -24,4 +27,5 @@ public class InsertCommand extends Command implements CommandInterface {
     public int neededArgs() {
         return 2;
     }
+
 }
