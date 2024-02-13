@@ -26,7 +26,7 @@ public class App {
         FileManager file = new FileManager(op);
 
         try{
-            Command toto = file.getCommand();
+            file.getCommand();
         }catch (Exception e) {
             ErrorHandling.printError("Impossible to execute the command", e);
         }finally {

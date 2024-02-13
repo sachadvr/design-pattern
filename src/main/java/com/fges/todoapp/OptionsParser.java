@@ -4,6 +4,8 @@ import com.fges.todoapp.options.Option;
 import com.fges.todoapp.options.OptionsContainer;
 import org.apache.commons.cli.*;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class OptionsParser {
@@ -12,9 +14,9 @@ public class OptionsParser {
     private final CommandLineParser parser;
     private List<String> positionalArgs;
     private final HashMap<String, String> options = new HashMap<>();
-    private final List<Option> OptionsClasses = new ArrayList<>();
+    private final List<Option> optionsClasses = new ArrayList<>();
 
-    public HashMap<String, String> getOptions() {
+    public Map<String, String> getOptions() {
         return options;
     }
 
@@ -45,20 +47,20 @@ public class OptionsParser {
     }
 
 
-    private void parseOptions(String[] args) throws Exception {
+    private void parseOptions(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, ParseException {
         CommandLine cmd;
 
         for (Class<? extends Option> optionClass : OptionsContainer.allOptions) {
-            Option option = optionClass.newInstance();
-            if (option.isRequired()) {
+            Option option = optionClass.getDeclaredConstructor().newInstance();
+            if (Boolean.TRUE.equals(option.isRequired())) {
                 cliOptions.addRequiredOption(option.getOption(), option.getLongOption(), true, option.getDescription());
             }else {
                 cliOptions.addOption(option.getOption(), option.getLongOption(), false, option.getDescription());
             }
-            OptionsClasses.add(option);
+            optionsClasses.add(option);
         }
         cmd = parser.parse(cliOptions, args);
-        for (Option option : OptionsClasses) {
+        for (Option option : optionsClasses) {
             String optionName = option.getOptionName();
 
             if(cmd.hasOption(option.getOption())) {

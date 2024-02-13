@@ -10,6 +10,7 @@ import java.nio.file.Path;
  */
 abstract public class Command implements CommandInterface {
     public String cmd;
+
     public OptionsParser op;
 
     public String fileContent;
@@ -32,17 +33,12 @@ abstract public class Command implements CommandInterface {
     public boolean isCommand() {
         return support().equals(cmd);
     }
-
-    public void executeDataProcessor() {
+    public void exec() throws Exception {
         try {
             processor.process(op.getPositionalArgs().size() > 1 ? op.getPositionalArgs().get(1) : null, fileContent, op, filePath);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void exec() throws Exception {
-        executeDataProcessor();
     }
     public String support() {
         return null;

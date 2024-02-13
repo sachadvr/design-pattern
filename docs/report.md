@@ -39,15 +39,22 @@ Here is a slight simple UML to understand what i did: (using mermaid)
 classDiagram
     App -- OptionsParser : Uses
     App -- ErrorHandling : Uses
-    App -- InsertCommand : Creates
-    App -- ListCommand : Creates
+    App -- FileManager : Uses
+    FileManager -- InsertCommand : Finds
+    FileManager -- ListCommand : Finds
+    FileManager: -getCommand()
     OptionsParser -- OptionsContainer : Uses
     OptionsParser -- Option : Uses
     OptionsParser : -optionsContainer OptionsContainer
     OptionsParser : -option Option
     CommandInterface <|.. Command : Implements
+    CommandInterface :- support()
+    CommandInterface :- neededArgs()
     Command -- OptionsParser : Uses
     Command : -optionsParser OptionsParser
+    Command : -isCommand()
+    Command : -executeDataProcessor()
+    Command : -isCommand()
     InsertCommand -- Command : Extends
     InsertCommand : -commandName String
     InsertCommand : -numArgs Int
