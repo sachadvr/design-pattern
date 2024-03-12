@@ -96,22 +96,22 @@ public class GhostTests {
     public void ghostTest() throws Exception {
         var testOutput = runMain(this.execOutput.sequence);
         Assert.assertEquals("Exit code should be the same", this.execOutput.exitCode, testOutput.exitCode);
-        assertStdoutEquals(this.execOutput.stdoutLines, testOutput.stdoutLines);
+        assertStdoutEquals(this.execOutput.stdoutLines, testOutput.stdoutLines, this.execOutput.sequence);
     }
 
-    private static void assertStdoutEquals(List<String> expected, List<String> actual) {
+    private static void assertStdoutEquals(List<String> expected, List<String> actual, List<List<String>> testInput) {
         var expectedAsArray = formatStdoutLines(expected).toArray();
         var actualAsArray = formatStdoutLines(actual).toArray();
 
-        System.err.println(Arrays.toString(expectedAsArray));
-        System.err.println(Arrays.toString(actualAsArray));
+        System.err.println("Expected: " + Arrays.toString(expectedAsArray));
+        System.err.println("Actual: " + Arrays.toString(actualAsArray));
+        System.err.println("Test Input: " + testInput);
 
         Assert.assertEquals("Length should be the same", expectedAsArray.length, actualAsArray.length);
 
         for (int i = 0; i < expectedAsArray.length; i++) {
             Assert.assertEquals("Line should be the same", expectedAsArray[0], actualAsArray[0]);
         }
-
     }
 
     private static List<String> formatStdoutLines(List<String> baseLines) {
@@ -158,6 +158,7 @@ public class GhostTests {
 
             ObjectMapper mapper = new ObjectMapper();
 
+            System.out.println(response.toString());
             return mapper.readValue(response.toString(), new TypeReference<>() {
             });
         }
