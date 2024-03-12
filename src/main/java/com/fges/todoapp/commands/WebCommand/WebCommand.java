@@ -1,4 +1,4 @@
-package com.fges.todoapp.commands.ListCommand;
+package com.fges.todoapp.commands.WebCommand;
 
 
 import com.fges.todoapp.OptionsParser;
@@ -13,15 +13,15 @@ import java.nio.file.Path;
 /**
  * Hello world!
  */
-public class ListCommand extends Command implements CommandInterface {
+public class WebCommand extends Command implements CommandInterface {
 
-    public ListCommand(String cmd, OptionsParser op, String fileContent, Path filePath, Execute dataProcessor, LoadService loadService, WriteService writeService) throws Exception {
+    public WebCommand(String cmd, OptionsParser op, String fileContent, Path filePath, Execute dataProcessor, LoadService loadService, WriteService writeService) throws Exception {
         super(cmd, op, fileContent, filePath, dataProcessor, loadService, writeService);
     }
 
     @Override
     public String support() {
-        return "list";
+        return "web";
     }
 
     @Override
