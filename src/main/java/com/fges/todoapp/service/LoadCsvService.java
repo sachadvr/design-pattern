@@ -1,32 +1,31 @@
 package com.fges.todoapp.service;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import au.com.bytecode.opencsv.CSVReader;
 import com.fges.todoapp.OptionsParser;
+import com.fges.todoapp.TodoList;
 
+import java.io.StringReader;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.List;
 
 public class LoadCsvService implements LoadService {
 
 
-    public ArrayNode getTodos(String fileContent, OptionsParser op, Path filePath) {
-        ArrayNode outputNode = JsonNodeFactory.instance.arrayNode();
+    public TodoList getTodos(String fileContent, OptionsParser op, Path filePath) {
+        TodoList todoList = new TodoList();
+        try (CSVReader reader = new CSVReader(new StringReader(fileContent), '~')) {
+            List<String[]> allRows = reader.readAll();
 
-        Arrays.stream(fileContent.split("\n"))
-                .map(line -> Arrays.asList(line.split(";")))
-                .filter(todoList -> todoList.size() > 1)
-                .forEach(todoList -> {
-                    String taskName = todoList.get(0);
-                    boolean isDone = Boolean.parseBoolean(todoList.get(1));
-                    ObjectNode itemNode = JsonNodeFactory.instance.objectNode();
-                    itemNode.put("name", taskName);
-                    itemNode.put("isdone", isDone);
-                    outputNode.add(itemNode);
-                });
+            allRows.forEach(todoListCsv -> {
+                        String taskName = todoListCsv[0];
+                        boolean isDone = Boolean.parseBoolean(todoListCsv[1]);
+                        todoList.add(taskName, isDone);
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return outputNode;
+        return todoList;
 
     }
 }

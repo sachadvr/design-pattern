@@ -24,6 +24,10 @@ public class OptionsParser {
         return positionalArgs;
     }
 
+    public String getAllArgs() {
+        return String.join(" ", positionalArgs.subList(1, positionalArgs.size()));
+    }
+
     public OptionsParser(String[] args) {
         cliOptions = new Options();
         parser = new DefaultParser();

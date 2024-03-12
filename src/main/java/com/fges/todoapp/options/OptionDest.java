@@ -5,15 +5,15 @@ package com.fges.todoapp.options;
  * Hello world!
  */
 public class OptionDest extends Option {
-    public static String option = "dest";
-    public static String longoption = "destination";
+    public static String option = "o";
+    public static String longoption = "output";
 
     public OptionDest() {
         super(option, longoption);
     }
 
     public String getOptionName() {
-        return "destination";
+        return "output";
     }
     public String getDescription() {
         return "to change csv to json or json to csv";

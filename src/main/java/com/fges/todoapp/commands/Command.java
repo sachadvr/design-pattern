@@ -4,6 +4,8 @@ package com.fges.todoapp.commands;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fges.todoapp.OptionsParser;
+import com.fges.todoapp.Todo;
+import com.fges.todoapp.TodoList;
 import com.fges.todoapp.service.LoadService;
 import com.fges.todoapp.service.WriteService;
 
@@ -20,12 +22,12 @@ abstract public class Command implements CommandInterface {
     public String fileContent;
 
     public Path filePath;
-    private final DataProcessor processor;
+    private final Execute processor;
 
     private final LoadService loadService;
 
     private final WriteService writeService;
-    public Command(String cmd, OptionsParser op, String fileContent, Path filePath, DataProcessor dataProcessor, LoadService loadService, WriteService writeService) throws Exception {
+    public Command(String cmd, OptionsParser op, String fileContent, Path filePath, Execute dataProcessor, LoadService loadService, WriteService writeService) throws Exception {
         this.cmd = cmd;
         this.op = op;
         this.fileContent = fileContent;
@@ -45,10 +47,9 @@ abstract public class Command implements CommandInterface {
     }
     public void exec() throws Exception {
         try {
-            ObjectNode todoNode = new ObjectNode(JsonNodeFactory.instance);
-            todoNode.put("name", op.getPositionalArgs().size() > 1 ? op.getPositionalArgs().get(1) : null);
-            todoNode.put("isdone", op.getOptions().containsKey("isDone") ? true : false);
-            processor.process(todoNode, fileContent, op, filePath, loadService, writeService);
+            Todo todo = new Todo(op.getPositionalArgs().size() > 1 ? op.getAllArgs() : null, op.getOptions().containsKey("isDone") ? true : false);
+
+            processor.process(todo, fileContent, op, filePath, loadService, writeService);
         } catch (Exception e) {
             e.printStackTrace();
         }
