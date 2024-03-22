@@ -1,13 +1,10 @@
-package com.fges.todoapp.service;
+package com.fges.todoapp.service.Loading;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fges.todoapp.OptionsParser;
-import com.fges.todoapp.TodoList;
+import com.fges.todoapp.parser.OptionsParser;
+import com.fges.todoapp.model.TodoList;
 
 import java.nio.file.Path;
 

@@ -1,8 +1,8 @@
-package com.fges.todoapp.service;
+package com.fges.todoapp.service.Loading;
 
 import au.com.bytecode.opencsv.CSVReader;
-import com.fges.todoapp.OptionsParser;
-import com.fges.todoapp.TodoList;
+import com.fges.todoapp.parser.OptionsParser;
+import com.fges.todoapp.model.TodoList;
 
 import java.io.StringReader;
 import java.nio.file.Path;

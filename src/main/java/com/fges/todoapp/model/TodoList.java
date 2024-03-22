@@ -1,4 +1,4 @@
-package com.fges.todoapp;
+package com.fges.todoapp.model;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -10,12 +10,14 @@ public class TodoList {
 
     ArrayList<Todo> todos = new ArrayList<>();
 
-    public void add(Todo todo) {
-        todos.add(todo);
-    }
+
 
     public List<Todo> list() {
         return todos;
+    }
+
+    public void add(Todo todo) {
+        todos.add(todo);
     }
 
     public void add(String nameToString, boolean aBoolean) {

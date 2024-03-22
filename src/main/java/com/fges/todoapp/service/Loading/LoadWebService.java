@@ -1,15 +1,12 @@
-package com.fges.todoapp.service;
+package com.fges.todoapp.service.Loading;
 
-import com.fges.todoapp.OptionsParser;
-import com.fges.todoapp.TodoList;
-import org.json.simple.JSONObject;
+import com.fges.todoapp.parser.OptionsParser;
+import com.fges.todoapp.model.TodoList;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.http.HttpRequest;
 import java.nio.file.Path;
 
 public class LoadWebService implements LoadService {

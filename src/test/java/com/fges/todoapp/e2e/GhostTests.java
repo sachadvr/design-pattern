@@ -99,14 +99,21 @@ public class GhostTests {
         assertStdoutEquals(this.execOutput.stdoutLines, testOutput.stdoutLines, this.execOutput.sequence);
     }
 
+    public static List<String> buildExecSh(List<List<String>> maliste) {
+        maliste.forEach((List<String> l) -> {
+            System.out.println("./exec.sh " + String.join(" ", l));
+        });
+
+        return null;
+    }
+
     private static void assertStdoutEquals(List<String> expected, List<String> actual, List<List<String>> testInput) {
         var expectedAsArray = formatStdoutLines(expected).toArray();
         var actualAsArray = formatStdoutLines(actual).toArray();
 
         System.err.println("Expected: " + Arrays.toString(expectedAsArray));
         System.err.println("Actual: " + Arrays.toString(actualAsArray));
-        System.err.println("Test Input: " + testInput);
-
+        buildExecSh(testInput);
         Assert.assertEquals("Length should be the same", expectedAsArray.length, actualAsArray.length);
 
         for (int i = 0; i < expectedAsArray.length; i++) {

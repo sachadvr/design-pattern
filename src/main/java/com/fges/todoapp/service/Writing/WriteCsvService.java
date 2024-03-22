@@ -1,7 +1,6 @@
-package com.fges.todoapp.service;
+package com.fges.todoapp.service.Writing;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fges.todoapp.TodoList;
+import com.fges.todoapp.model.TodoList;
 
 
 import java.io.IOException;

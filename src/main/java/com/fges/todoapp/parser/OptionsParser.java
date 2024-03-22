@@ -1,5 +1,6 @@
-package com.fges.todoapp;
+package com.fges.todoapp.parser;
 
+import com.fges.todoapp.ErrorHandling;
 import com.fges.todoapp.options.Option;
 import com.fges.todoapp.options.OptionsContainer;
 import org.apache.commons.cli.*;

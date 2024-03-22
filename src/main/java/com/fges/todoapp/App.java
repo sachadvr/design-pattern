@@ -1,13 +1,7 @@
 package com.fges.todoapp;
 
 
-import com.fges.todoapp.commands.Command;
-import com.fges.todoapp.commands.InsertCommand.InsertCommand;
-import com.fges.todoapp.commands.ListCommand.ListCommand;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import com.fges.todoapp.parser.OptionsParser;
 
 /**
  * Hello world!
@@ -24,10 +18,10 @@ public class App {
     public static int exec(String[] args) {
 
         OptionsParser op = new OptionsParser(args);
-        FileManager file = new FileManager(op);
+        CommandManager manager = new CommandManager(op);
 
         try{
-            file.getCommand();
+            manager.getCommand();
         }catch (Exception e) {
             ErrorHandling.printError("Impossible to execute the command", e);
         }finally {

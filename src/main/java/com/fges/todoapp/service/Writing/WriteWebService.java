@@ -1,14 +1,11 @@
-package com.fges.todoapp.service;
+package com.fges.todoapp.service.Writing;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fges.todoapp.TodoList;
+import com.fges.todoapp.model.TodoList;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.http.HttpRequest;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class WriteWebService implements WriteService {

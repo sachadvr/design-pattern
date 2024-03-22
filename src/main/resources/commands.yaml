@@ -1,0 +1,9 @@
+commands:
+  - name: insert
+    class: com.fges.todoapp.commands.InsertCommand.Insert
+  - name: list
+    class: com.fges.todoapp.commands.ListCommand.List
+  - name: migrate
+    class: com.fges.todoapp.commands.MigrateCommand.Migrate
+  - name: web
+    class: com.fges.todoapp.commands.WebCommand.Web
