@@ -3,6 +3,8 @@ package com.fges.todoapp.commands;
 
 import com.fges.todoapp.FileManager;
 import com.fges.todoapp.parser.ServiceParser;
+import com.fges.todoapp.service.Loading.LoadService;
+import com.fges.todoapp.service.Writing.WriteService;
 import com.fges.todoapp.tools.OptionManager;
 import com.fges.todoapp.model.Todo;
 import com.fges.todoapp.service.Loading.LoadCsv;
@@ -51,20 +53,20 @@ abstract public class Command implements CommandInterface {
         return support().equals(cmd);
     }
 
-    public LoadServiceInterface getLoadService(String override) {
+    public LoadService getLoadService(String override) {
        return serviceParser.findLoadService(override);
     }
 
-    public LoadServiceInterface getLoadService() {
+    public LoadService getLoadService() {
         return getLoadService(om.getOption("fileName"));
     }
 
 
-    public WriteServiceInterface getWriteService(String override) {
+    public WriteService getWriteService(String override) {
         return serviceParser.findWriteService(override);
     }
 
-    public WriteServiceInterface getWriteService() {
+    public WriteService getWriteService() {
         return getWriteService(om.getOption("fileName"));
     }
 
