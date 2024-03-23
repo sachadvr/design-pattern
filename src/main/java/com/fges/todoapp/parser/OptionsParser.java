@@ -2,14 +2,14 @@ package com.fges.todoapp.parser;
 
 import com.fges.todoapp.ErrorHandling;
 import com.fges.todoapp.options.Option;
-import com.fges.todoapp.options.OptionsContainer;
+import com.fges.todoapp.tools.OptionManager;
 import org.apache.commons.cli.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class OptionsParser {
+
+    private CommandLine cmd;
 
     private final Options cliOptions;
     private final CommandLineParser parser;
@@ -17,17 +17,6 @@ public class OptionsParser {
     private final HashMap<String, String> options = new HashMap<>();
     private final List<Option> optionsClasses = new ArrayList<>();
 
-    public Map<String, String> getOptions() {
-        return options;
-    }
-
-    public List<String> getPositionalArgs() {
-        return positionalArgs;
-    }
-
-    public String getAllArgs() {
-        return String.join(" ", positionalArgs.subList(1, positionalArgs.size()));
-    }
 
     public OptionsParser(String[] args) {
         cliOptions = new Options();
@@ -37,9 +26,12 @@ public class OptionsParser {
             parseOptions(args);
         } catch (ParseException ex) {
             ErrorHandling.printError("Failed to parse arguments: ", ex);
+
             return;
         } catch (Exception e) {
             ErrorHandling.printError("An error occured when parsing options", e);
+
+            return;
         }
 
         if (positionalArgs.isEmpty()) {
@@ -47,24 +39,43 @@ public class OptionsParser {
         }
     }
 
-    public String getCommand() {
-        return (positionalArgs != null && !positionalArgs.isEmpty()) ? positionalArgs.get(0) : null;
+    public OptionManager getManager() {
+        return new OptionManager(this.options, this.positionalArgs);
     }
 
+    public List<Option> getOptionsClasses() {
+        List<Map<String, String>> optionMappings = new YamlParser().loadCommandMappings("/options.yaml", "options");
 
-    private void parseOptions(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, ParseException {
-        CommandLine cmd;
+        optionMappings.forEach(mapping -> {
+            String fullClassName = mapping.get("class");
+            try {
+                Class<? extends Option> optionClass = (Class<? extends Option>) Class.forName(fullClassName);
+                Option option = optionClass.getDeclaredConstructor().newInstance();
+                optionsClasses.add(option);
+            } catch (Exception e) {
+                ErrorHandling.printError("Failed to load options", e);
+            }
+        });
 
-        for (Class<? extends Option> optionClass : OptionsContainer.allOptions) {
-            Option option = optionClass.getDeclaredConstructor().newInstance();
+        return optionsClasses;
+
+    }
+
+    private void parseOptions(String[] args) throws ParseException {
+        for (Option option : getOptionsClasses()) {
             if (Boolean.TRUE.equals(option.isRequired())) {
                 cliOptions.addRequiredOption(option.getOption(), option.getLongOption(), option.hasArgs(), option.getDescription());
             }else {
                 cliOptions.addOption(option.getOption(), option.getLongOption(), option.hasArgs(), option.getDescription());
             }
-            optionsClasses.add(option);
         }
         cmd = parser.parse(cliOptions, args);
+        processCommandOptions();
+        positionalArgs = cmd.getArgList();
+
+    }
+
+    private void processCommandOptions() {
         for (Option option : optionsClasses) {
             String optionName = option.getOptionName();
 
@@ -73,7 +84,8 @@ public class OptionsParser {
             }
 
         }
-        positionalArgs = cmd.getArgList();
     }
+
+
 
 }

@@ -13,7 +13,7 @@ public class Insert extends Command implements CommandInterface {
 
     @Override
     public void execute(Todo todo) throws Exception {
-        TodoList nodes = getLoadService().getTodos(fileContent, op, filePath);
+        TodoList nodes = getLoadService().getTodos(fileContent, om, filePath);
         nodes.add(todo);
         getWriteService().write(filePath, nodes);
     }

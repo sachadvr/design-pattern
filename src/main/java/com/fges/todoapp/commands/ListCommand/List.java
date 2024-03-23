@@ -14,9 +14,9 @@ public class List extends Command implements CommandInterface {
 
     @Override
     public void execute(Todo todo) throws Exception {
-        TodoList nodes = getLoadService().getTodos(fileContent, op, filePath);
+        TodoList nodes = getLoadService().getTodos(fileContent, om, filePath);
         java.util.List<Todo> todos = nodes.list();
-        if (op.getOptions().containsKey("isDone")) {
+        if (om.hasOption("isDone")) {
             for (int i = 0; i < todos.size(); i++) {
                 if (todos.get(i).isDone()) {
                     System.out.println("- Done: " + todos.get(i).getName());

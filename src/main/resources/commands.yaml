@@ -1,3 +1,6 @@
+## Commands configuration
+# Each command is registered here by a name and a class path
+# The class must extend the Command class from com.fges.todoapp.commands
 commands:
   - name: insert
     class: com.fges.todoapp.commands.InsertCommand.Insert

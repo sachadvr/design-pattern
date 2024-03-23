@@ -8,8 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.file.Path;
 
-public class WriteWebService implements WriteService {
+public class WriteWeb extends WriteService {
 
+    @Override
     public void write(Path filePath, TodoList nodes) throws IOException {
         JSONObject json = new JSONObject();
         json.put("name", nodes.list().get(0).getName());

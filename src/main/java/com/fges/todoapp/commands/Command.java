@@ -2,14 +2,16 @@ package com.fges.todoapp.commands;
 
 
 import com.fges.todoapp.FileManager;
-import com.fges.todoapp.parser.OptionsParser;
+import com.fges.todoapp.parser.ServiceParser;
+import com.fges.todoapp.tools.OptionManager;
 import com.fges.todoapp.model.Todo;
-import com.fges.todoapp.service.Loading.LoadCsvService;
-import com.fges.todoapp.service.Loading.LoadJsonService;
-import com.fges.todoapp.service.Loading.LoadService;
-import com.fges.todoapp.service.Writing.WriteCsvService;
-import com.fges.todoapp.service.Writing.WriteJsonService;
-import com.fges.todoapp.service.Writing.WriteService;
+import com.fges.todoapp.service.Loading.LoadCsv;
+import com.fges.todoapp.service.Loading.LoadJson;
+import com.fges.todoapp.service.Loading.LoadServiceInterface;
+import com.fges.todoapp.service.Writing.WriteCsv;
+import com.fges.todoapp.service.Writing.WriteJson;
+import com.fges.todoapp.service.Writing.WriteServiceInterface;
+import org.yaml.snakeyaml.Yaml;
 
 import java.nio.file.Path;
 
@@ -19,25 +21,27 @@ import java.nio.file.Path;
 abstract public class Command implements CommandInterface {
     public String cmd;
 
-    public OptionsParser op;
+    public OptionManager om;
 
     public FileManager fileManager;
 
     public String fileContent;
 
     public Path filePath;
+
+    public ServiceParser serviceParser;
     public Command(String cmd, Object... args) throws Exception {
         this.cmd = cmd;
         if (args.length < 2) {
             throw new Exception("Not enough arguments for the command " + support());
         }
 
-        this.op = (OptionsParser) args[0];
+        this.om = (OptionManager) args[0];
         this.fileManager = (FileManager) args[1];
         this.fileContent = fileManager.getContent();
         this.filePath = fileManager.getFilePath();
         if (!isCommand()) return;
-        if (op.getPositionalArgs().size() < this.neededArgs()) {
+        if (om.getArguments().size() < this.neededArgs()) {
             throw new Exception("Not enougth arguments for the command " + support());
         }
         exec();
@@ -47,48 +51,27 @@ abstract public class Command implements CommandInterface {
         return support().equals(cmd);
     }
 
-    public LoadService getLoadService() {
-        String output = op.getOptions().get("fileName");
-        if (output.endsWith(".csv")) {
-            return new LoadCsvService();
-        }else if (output.endsWith(".json")) {
-            return new LoadJsonService();
-        }
-        return null;
+    public LoadServiceInterface getLoadService(String override) {
+       return serviceParser.findLoadService(override);
     }
 
-    public LoadService getLoadService(String override) {
-        if (override.endsWith(".csv")) {
-            return new LoadCsvService();
-        }else if (override.endsWith(".json")) {
-            return new LoadJsonService();
-        }
-        return null;
+    public LoadServiceInterface getLoadService() {
+        return getLoadService(om.getOption("fileName"));
     }
 
-    public WriteService getWriteService() {
-        String output = op.getOptions().get("fileName");
-        if (output.endsWith(".csv")) {
-            return new WriteCsvService();
-        }else if (output.endsWith(".json")) {
-            return new WriteJsonService();
-        }
-        return null;
+
+    public WriteServiceInterface getWriteService(String override) {
+        return serviceParser.findWriteService(override);
     }
 
-    public WriteService getWriteService(String override) {
-        if (override.endsWith(".csv")) {
-            return new WriteCsvService();
-        }else if (override.endsWith(".json")) {
-            return new WriteJsonService();
-        }
-        return null;
+    public WriteServiceInterface getWriteService() {
+        return getWriteService(om.getOption("fileName"));
     }
 
     public void exec() throws Exception {
         try {
-            Todo todo = new Todo(op.getPositionalArgs().size() > 1 ? op.getAllArgs() : null, op.getOptions().containsKey("isDone") ? true : false);
-
+            Todo todo = new Todo(om.getArguments().size() > 1 ? om.ArgsToString() : null, om.hasOption("isDone") ? true : false);
+            serviceParser = new ServiceParser();
             execute(todo);
         } catch (Exception e) {
             e.printStackTrace();

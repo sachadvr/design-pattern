@@ -1,0 +1,10 @@
+## Options configuration
+# Each options is registered here by a name and a class path
+# The class must extend the Option class from com.fges.todoapp.options
+options:
+  - name: Source
+    class: com.fges.todoapp.options.required.Source
+  - name: Done
+    class: com.fges.todoapp.options.optional.Done
+  - name: Destination
+    class: com.fges.todoapp.options.optional.Destination

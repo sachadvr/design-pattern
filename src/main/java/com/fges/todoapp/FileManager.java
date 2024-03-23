@@ -1,6 +1,7 @@
 package com.fges.todoapp;
 
-import com.fges.todoapp.parser.OptionsParser;
+import com.fges.todoapp.tools.OptionManager;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,9 +9,9 @@ import java.nio.file.Paths;
 public class FileManager {
 
     public static final String FILENAME = "fileName";
-    private static OptionsParser op;
-    public FileManager(OptionsParser op) {
-        this.op = op;
+    private static OptionManager om;
+    public FileManager(OptionManager om) {
+        this.om = om;
     }
 
     public String getContent(String bypassFileName) {
@@ -29,12 +30,12 @@ public class FileManager {
     }
 
     public String getContent() {
-        return getContent(op.getOptions().get(FILENAME));
+        return getContent(om.getOptions().get(FILENAME));
 
     }
 
     public Path getFilePath() {
-        return Paths.get(op.getOptions().get(FILENAME));
+        return Paths.get(om.getOption(FILENAME));
     }
 
 

@@ -1,14 +1,16 @@
-package com.fges.todoapp.options;
+package com.fges.todoapp.options.optional;
 
+
+import com.fges.todoapp.options.Option;
 
 /**
  * Hello world!
  */
-public class OptionDone extends Option {
+public class Done extends Option {
     public static String option = "d";
     public static String longoption = "done";
 
-    public OptionDone() {
+    public Done() {
         super(option, longoption);
     }
 

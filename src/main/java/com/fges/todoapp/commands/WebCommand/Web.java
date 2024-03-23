@@ -5,8 +5,8 @@ import com.fges.todoapp.model.Todo;
 import com.fges.todoapp.model.TodoList;
 import com.fges.todoapp.commands.Command;
 import com.fges.todoapp.commands.CommandInterface;
-import com.fges.todoapp.service.Writing.WriteService;
-import com.fges.todoapp.service.Writing.WriteWebService;
+import com.fges.todoapp.service.Writing.WriteServiceInterface;
+import com.fges.todoapp.service.Writing.WriteWeb;
 
 public class Web extends Command implements CommandInterface {
 
@@ -15,13 +15,13 @@ public class Web extends Command implements CommandInterface {
     }
 
     @Override
-    public WriteService getWriteService() {
-        return new WriteWebService();
+    public WriteServiceInterface getWriteService() {
+        return new WriteWeb();
     }
 
     @Override
     public void execute(Todo todo) throws Exception {
-        TodoList nodes = getLoadService().getTodos(fileContent, op, filePath);
+        TodoList nodes = getLoadService().getTodos(fileContent, om, filePath);
         nodes.add(todo);
         getWriteService().write(filePath, nodes);
     }

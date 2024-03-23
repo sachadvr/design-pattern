@@ -1,7 +1,9 @@
 package com.fges.todoapp;
 
 
+import com.fges.todoapp.tools.OptionManager;
 import com.fges.todoapp.parser.OptionsParser;
+import com.fges.todoapp.tools.CommandManager;
 
 /**
  * Hello world!
@@ -17,8 +19,8 @@ public class App {
 
     public static int exec(String[] args) {
 
-        OptionsParser op = new OptionsParser(args);
-        CommandManager manager = new CommandManager(op);
+        OptionManager om = new OptionsParser(args).getManager();
+        CommandManager manager = new CommandManager(om);
 
         try{
             manager.getCommand();

@@ -18,11 +18,11 @@ public class Migrate extends Command implements CommandInterface {
 
     @Override
     public void execute(Todo todo) throws Exception {
-        String output = op.getOptions().get("output");
+        String output = om.getOption("output");
         Path newFilePath = Paths.get(output);
 
-        TodoList nodes = getLoadService().getTodos(fileContent, op, filePath);
-        TodoList outputNodes = getLoadService(output).getTodos(fileManager.getContent(output), op, newFilePath);
+        TodoList nodes = getLoadService().getTodos(fileContent, om, filePath);
+        TodoList outputNodes = getLoadService(output).getTodos(fileManager.getContent(output), om, newFilePath);
 
         List<Todo> todos = nodes.list();
         for (int i = 0; i < todos.size(); i++) {

@@ -1,10 +1,4 @@
 package com.fges.todoapp.service.Writing;
 
-import com.fges.todoapp.model.TodoList;
-
-import java.nio.file.Path;
-
-public interface WriteService {
-
-    public void write(Path filePath, TodoList nodes) throws Exception;
+public abstract class WriteService implements WriteServiceInterface {
 }

@@ -1,0 +1,13 @@
+## Service configuration
+# Each service is registered here by an extension and a class path
+load-services:
+  - extension: json
+    class: com.fges.todoapp.service.Loading.LoadJson
+  - extension: csv
+    class: com.fges.todoapp.service.Loading.LoadCsv
+
+write-services:
+  - extension: json
+    class: com.fges.todoapp.service.Writing.WriteJson
+  - extension: csv
+    class: com.fges.todoapp.service.Writing.WriteCsv
