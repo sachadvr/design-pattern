@@ -4,7 +4,7 @@ package com.fges.todoapp.options;
 /**
  * Hello world!
  */
-abstract public class Option {
+abstract public class Option implements OptionInterface {
 
     public String option = null;
     public String longoption = null;
@@ -20,19 +20,4 @@ abstract public class Option {
         return longoption;
     }
 
-    public String getOptionName() {
-        return null;
-    }
-
-    public String getDescription() {
-        return null;
-    }
-
-    public Boolean hasArgs() {
-        return null;
-    }
-
-    public Boolean isRequired() {
-        return false;
-    }
 }
